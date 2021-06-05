@@ -1,4 +1,14 @@
 window.addEventListener("load", async () => {
+  if ("serviceWorker" in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register("./sw.js");
+      console.log(`registration`, registration);
+      console.log(`success serviceworker registration`);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  }
+
   await loadPosts();
 });
 
@@ -9,7 +19,7 @@ async function loadPosts() {
   const data = await res.json();
 
   const container = document.querySelector(".posts");
-  container.innerHTML = data.map(toCard).jpin("\n");
+  container.innerHTML = data.map(toCard).join("\n");
 }
 
 function toCard(post) {
